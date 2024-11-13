@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-md-4">
+
+  <div class="d-flex justify-content-between">
+		<h3 class="pb-2">Medication</h3>
+		<a class="btn btn-primary mb-3" href="{% url "add-medication" %}" role="button">Add new</a>
+	</div>
+
+  <ul>
+  {% for obj in object_list %}
+      <li>
+        <a href="{% url "edit-medication" pk=obj.pk %}">
+          {{ obj.name }}
+        </a>
+      </li>
+  {% empty %}
+      <li>No medication yet.</li>
+  {% endfor %}
+  </ul>
+
+</div>
+
+{% endblock %}

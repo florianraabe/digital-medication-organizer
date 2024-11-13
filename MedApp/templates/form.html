@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container mt-md-4">
+  <div class="d-flex justify-content-between">
+      <h3>Form</h3>
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-flex justify-content-between">
+        <input type="submit" value="Save" class="btn btn-primary">
+    </div>
+  </form>
+
+</div>
+
+{% endblock %}
+
