@@ -21,7 +21,7 @@ class MedicationForm(forms.ModelForm):
 class PerceptionForm(forms.ModelForm):
     class Meta:
         model = Perception
-        exclude = ()
+        fields = ['health',]
         widgets = {}
 
     def __init__(self, *args, **kwargs):

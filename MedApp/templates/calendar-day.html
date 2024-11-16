@@ -1,0 +1,39 @@
+<td class="{{ weekday }} col-1" style="width:10rem;height:8rem;">
+  <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#detail-{{ day }}">
+    <div class="card h-100 {% if today %}text-bg-info{% endif %}">
+      <div class="d-flex">
+        <p class="text-start ms-2">{{ day }}</p>
+        <div class="card-body p-1">
+          <ul class="list-group list-group-flush">
+            {% for med in medication %}
+            <li class="list-group-item">{{ med }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      
+    </div>
+</a>
+</td>
+
+
+<div class="modal fade" id="detail-{{ day }}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">{{ date|date:"l, d. F Y" }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          {% for med in medication %}
+          <li class="list-group-item">{{ med }} {{ med.dosage }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <a class="btn btn-primary" href="#" role="button">Taken</a>
+      </div>
+    </div>
+  </div>
+</div>

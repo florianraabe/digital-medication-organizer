@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.urls import reverse
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
@@ -17,17 +18,21 @@ class Medication(models.Model):
         PILL = 1, _("Pill")
         LIQUID = 2, _("Liquid")
 
-    class Weekdays(models.TextChoices):
-        MONDAY = 'MO', _("Monday")
-        TUESDAY = 'TU', _("Tuesday")
-        WEDNESDAY = 'WE', _("Wednesday")
-        THURSDAY = 'TH', _("Thursday")
-        FRIDAY = 'FR', _("Friday")
-        SATURDAY = 'SA', _("Saturday")
-        SUNDAY = 'SU', _("Sunday")
+    class Weekdays(models.IntegerChoices):
+        MONDAY = 0, _("Monday")
+        TUESDAY = 1, _("Tuesday")
+        WEDNESDAY = 2, _("Wednesday")
+        THURSDAY = 3, _("Thursday")
+        FRIDAY = 4, _("Friday")
+        SATURDAY = 5, _("Saturday")
+        SUNDAY = 6, _("Sunday")
 
     def __str__(self):
         return f"{self.name}"
+    
+    def get_absolute_url(self):
+        return reverse("detail-medication", kwargs={"pk": self.pk})
+    
 
     name = models.CharField(
         max_length=64,
@@ -43,10 +48,9 @@ class Medication(models.Model):
     dosage = models.IntegerField(
         verbose_name="Dosage",
     )
-    day = models.CharField(
+    day = models.IntegerField(
         choices=Weekdays.choices,
-        max_length=2,
-        default="MO",
+        default=0,
     )
     interval = models.DurationField(
         verbose_name="Interval"
@@ -59,6 +63,10 @@ class Perception(models.Model):
         ordering = []
         verbose_name = "Perception"
         verbose_name_plural = "Perceptions"
+
+    def __str__(self):
+        return f"{self.date} : {self.health}"
+    
 
     date = models.DateTimeField(
         default=now

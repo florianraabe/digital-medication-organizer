@@ -24,7 +24,14 @@ Then install the dependencies:
 (venv) $ pip install -r requirements.txt
 ```
 
-Once `pip` has finished downloading the dependencies:
+Once `pip` has finished downloading the dependencies, setup the database:
+
+```console
+(venv) $ python manage.py makemigrations
+(venv) $ python manage.py migrate
+```
+
+And start the application server:
 
 ```console
 (venv) $ python manage.py runserver

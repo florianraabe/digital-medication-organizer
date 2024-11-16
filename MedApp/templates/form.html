@@ -13,9 +13,15 @@
     {% csrf_token %}
     {{ form|crispy }}
     <div class="d-flex justify-content-between">
-        <input type="submit" value="Save" class="btn btn-primary">
-    </div>
+      <input type="submit" value="Save" class="btn btn-primary">
   </form>
+      {% if form.instance.pk != None %}
+      <form method="post" action="{% url 'delete-medication' pk=form.instance.pk %}">
+        {% csrf_token %}
+        <input type="submit" value="Delete" class="btn btn-danger">
+      </form>
+      {% endif %}
+    </div>
 
 </div>
 

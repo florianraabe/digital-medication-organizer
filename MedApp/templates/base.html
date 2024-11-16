@@ -14,27 +14,35 @@
 
   <nav class="navbar navbar-expand-md sticky-top bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Hello User</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-        <ul class="navbar-nav nav-underline mb-2 mb-md-0">
+      <div class="w-100 d-flex justify-content-between">
+        <a class="navbar-brand ms-2" href="/">Hello User</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse w-100 justify-content-center" id="navbarSupportedContent">
+        <ul class="navbar-nav nav-underline text-center mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+            <a class="nav-link {% if 'calendar' in request.path %}active{% endif %}" href="/">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if 'medication' in request.path %}active{% endif %}" href="{% url "medication" %}">Medication</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'perception' in request.path %}active{% endif %}" href="{% url "perception" %}">Perception</a>
+            <a class="nav-link {% if 'perception' in request.path %}active{% endif %}" href="{% url "add-perception" %}">Perception</a>
           </li>
         </ul>
+      </div>
+      <div class="w-100 d-flex justify-content-end">
+        <form method="post" action="{% url 'export' %}">
+          {% csrf_token %}
+          <input type="submit" value="Export" class="btn btn-outline-dark me-2">
+        </form>
       </div>
     </div>
   </nav>
 
-  <main class="d-flex flex-fill">
+  <main class="d-flex flex-fill mt-4">
     {% block content %}{% endblock %}
   </main>
 
