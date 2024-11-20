@@ -1,19 +1,17 @@
 <td class="{{ weekday }} col-1" style="width:10rem;height:8rem;">
-  <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#detail-{{ day }}">
-    <div class="card h-100 {% if today %}text-bg-info{% endif %}">
+    <div class="card h-100 {% if today %}text-bg-info{% elif weekday == 'sun' %}text-bg-light{% endif %}">
       <div class="d-flex">
         <p class="text-start ms-2">{{ day }}</p>
         <div class="card-body p-1">
+          <a class="stretched-link" data-bs-toggle="modal" data-bs-target="#detail-{{ day }}"></a>
           <ul class="list-group list-group-flush">
             {% for med in medication %}
-            <li class="list-group-item">{{ med }}</li>
+            <li class="list-group-item {% if today %}text-bg-info{% elif weekday == 'sun' %}text-bg-light{% endif %}">{{ med }}</li>
             {% endfor %}
           </ul>
         </div>
       </div>
-      
     </div>
-</a>
 </td>
 
 
@@ -32,7 +30,7 @@
         </ul>
       </div>
       <div class="modal-footer d-flex justify-content-center">
-        <a class="btn btn-primary" href="#" role="button">Taken</a>
+        <a class="btn btn-primary" href="#" data-bs-dismiss="modal" role="button">Taken</a>
       </div>
     </div>
   </div>

@@ -7,6 +7,19 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
+class Weekdays(models.Model):
+    class Meta:
+        unique_together = [['name']]
+        ordering = ["name"]
+        verbose_name = "Weekday"
+        verbose_name_plural = "Weekdays"
+
+    name = models.CharField(
+        max_length=64,
+        verbose_name="Name",
+    )
+    number = models.IntegerField()
+
 class Medication(models.Model):
     class Meta:
         unique_together = [['name']]
@@ -51,9 +64,11 @@ class Medication(models.Model):
     day = models.IntegerField(
         choices=Weekdays.choices,
         default=0,
+        verbose_name="Day to take the medicine",
     )
-    interval = models.DurationField(
-        verbose_name="Interval"
+    interval = models.IntegerField(
+        default=0,
+        verbose_name="Interval",
     )
 
 
