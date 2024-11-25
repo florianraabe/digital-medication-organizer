@@ -5,18 +5,23 @@
 <div class="container mt-md-4">
 
   <div class="d-flex justify-content-between">
-		<h3 class="pb-2">Perception</h3>
-		<a class="btn btn-primary mb-3" href="{% url "add-perception" %}" role="button">Add new</a>
+		<h3 class="pb-2">Health Perception</h3>
+		<a class="btn btn-primary mb-3" href="{% url "add-perception" %}" role="button">Add new perception</a>
 	</div>
 
-  <ul>
-  {% for obj in object_list %}
-      <li>
-        {{ obj.date }} Health: {{ obj.health }}
-      </li>
-  {% empty %}
-      <li>No perceptions yet.</li>
-  {% endfor %}
+  <ul class="list-group list-group-light my-2">
+    {% for obj in object_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <div class="ms-2">
+          <p class="fw-bold mb-1 text-start">{{ obj.date }}</p>
+        </div>
+      </div>
+      <p class="text-body-secondary mb-0">{{ obj.health }}</p>
+    </li>
+    {% empty %}
+        <li>No perceptions yet.</li>
+    {% endfor %}
   </ul>
 
 </div>

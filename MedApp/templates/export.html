@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedApp</title>
+</head>
+
+<body class="d-flex flex-column" style="min-height: 100vh">
+  <div class="container mt-md-4">
+
+    <div class="d-flex justify-content-between">
+      <h3 class="pb-2">Medication</h3>
+    </div>
+  
+    <ul class="list-group list-group-light my-2">
+      {% for obj in object_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <div class="ms-2">
+              <p class="fw-bold mb-1 text-start">{{ obj.name }}</p>
+              <p class="text-body-secondary mb-0">{{ obj.get_type_display }}: {{ obj.amount }} left</p>
+            </div>
+          </div>
+          &#62;
+        </li>
+      {% empty %}
+          <li>No medication yet.</li>
+      {% endfor %}
+    </ul>
+  
+  </div>
+
+</body>
+
+</html>

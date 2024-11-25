@@ -7,10 +7,13 @@ from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from xhtml2pdf import pisa
 
 from .calendar import MedicationCalendar
-from .forms import MedicationForm, PerceptionForm
-from .models import Medication, Perception
+from .forms import CalendarDayForm, MedicationForm, PerceptionForm
+from .models import CalendarDay, Medication, Perception
+
+from django.middleware.csrf import get_token
 
 # Create your views here.
 
@@ -23,7 +26,7 @@ def index(request):
 
 def calendar_month(request, year=datetime.now().year, month=datetime.now().month):
 
-    cal = MedicationCalendar()
+    cal = MedicationCalendar(get_token(request))
     html_calendar = cal.formatmonth(year, month, withyear=True)
     date = datetime(year=year, month=month, day=1)
 
@@ -41,17 +44,33 @@ def render_to_pdf(template, context={}):
     template = get_template(template)
     html = template.render(context)
     result = BytesIO()
-    return HttpResponse(result.getvalue(), content_type='application/pdf')
-    # pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-    # if not pdf.err:
-    #     return HttpResponse(result.getvalue(), content_type='application/pdf')
-    # return None
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
 
 def export(request):
     
-    context = { "user": request.user }
-    pdf = render_to_pdf("calendar.html", context)
-    return HttpResponse(pdf, content_type='application/pdf')
+    context = {
+        "user": request.user,
+        "object_list": Medication.objects.all(),
+    }
+    return render_to_pdf("export.html", context)
+
+def mark_calendar_day(request, year, month, day):
+    
+    if request.method == "POST":
+        date = datetime(year=year, month=month, day=day)
+        calendar_day = CalendarDay.objects.filter(date=date).first()
+        if calendar_day == None:
+            form = CalendarDayForm(date, request.POST)
+        else:
+            form = CalendarDayForm(date, request.POST, instance=calendar_day)
+        if form.is_valid():
+            form.save()
+
+    return redirect(calendar_month)
+    
 
 ### Medication ###
 

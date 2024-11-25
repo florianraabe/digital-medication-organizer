@@ -4,14 +4,14 @@
 
 {% load crispy_forms_tags %}
 
-<div class="container mt-md-4">
+<div class="container my-md-4">
   <div class="d-flex justify-content-between">
-      <h3>Form</h3>
+      <h3>Medication</h3>
   </div>
 
   <form method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+    {% crispy form %}
     <div class="d-flex justify-content-between">
       <input type="submit" value="Save" class="btn btn-primary">
   </form>
