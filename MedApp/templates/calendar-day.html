@@ -1,19 +1,22 @@
+{% load crispy_forms_tags %}
+
 <td class="{{ weekday }} col-1" style="width:10rem;height:8rem;">
-  <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#detail-{{ day }}">
-    <div class="card h-100 {% if today %}text-bg-info{% endif %}">
+    <div class="card h-100 {% if today %}text-bg-info{% elif taken_all %}text-bg-success{% elif taken_part %}text-bg-warning{% elif weekday == 'sun' %}text-bg-light{% endif %}">
       <div class="d-flex">
         <p class="text-start ms-2">{{ day }}</p>
         <div class="card-body p-1">
+          <a class="stretched-link" data-bs-toggle="modal" data-bs-target="#detail-{{ day }}"></a>
           <ul class="list-group list-group-flush">
-            {% for med in medication %}
-            <li class="list-group-item">{{ med }}</li>
+            {% for med in medication|slice:":3" %}
+            <li class="list-group-item py-0 border-0 {% if today %}text-bg-info{% elif taken_all %}text-bg-success{% elif taken_part %}text-bg-warning{% elif weekday == 'sun' %}text-bg-light{% endif %}">{{ med.name }}</li>
             {% endfor %}
+            {% if medication|length > 3 %}
+            ...
+            {% endif %}
           </ul>
         </div>
       </div>
-      
     </div>
-</a>
 </td>
 
 
@@ -24,15 +27,21 @@
         <h5 class="modal-title" id="modalLabel">{{ date|date:"l, d. F Y" }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <ul class="list-group list-group-flush">
-          {% for med in medication %}
-          <li class="list-group-item">{{ med }} {{ med.dosage }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="modal-footer d-flex justify-content-center">
-        <a class="btn btn-primary" href="#" role="button">Taken</a>
+      
+      <div class="">
+        <form method="post" action="{% url 'mark-calendar-day' year=date|date:"Y" month=date|date:"m" day=date|date:"d" %}">
+          <div class="modal-body">
+            <div class="d-flex justify-content-center">
+              <div class="w-50">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ token }}">
+                {{ form|crispy }}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <input type="submit" value="Taken" class="btn btn-primary">
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -11,6 +11,7 @@
     <h3>{{ month|date:"F Y" }}</h3>
     <div class="">
       <a class="btn btn-secondary mb-2" href="/calendar/{{ previous|date:"Y/n" }}" role="button">&#60; {{ previous|date:"F" }}</a>
+      <a class="btn btn-secondary mb-2" href="/calendar/" role="button">Today</a>
       <a class="btn btn-secondary mb-2" href="/calendar/{{ next|date:"Y/n" }}" role="button">{{ next|date:"F" }} &#62;</a>
     </div>
   </div>

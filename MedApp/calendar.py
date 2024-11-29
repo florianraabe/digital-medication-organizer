@@ -3,15 +3,17 @@ from datetime import datetime
 
 from django.template.loader import render_to_string
 
-from .models import Medication
+from .forms import CalendarDayForm
+from .models import Medication, CalendarDay
 
 
 class MedicationCalendar(HTMLCalendar):
-    def __init__(self, events=None):
+    def __init__(self, token, events=None):
         super(MedicationCalendar, self).__init__()
         self.events = events
         self.month = None
         self.year = None
+        self.token = token
 
     def formatday(self, day, weekday, events):
         """
@@ -22,12 +24,25 @@ class MedicationCalendar(HTMLCalendar):
             return '<td class="noday">&nbsp;</td>'  # day outside month
         else:
             date = datetime(self.year, self.month, day=day)
+            calendar_day = CalendarDay.objects.filter(date=date).first()
+            taken_part = False
+            taken_all = False
+            if calendar_day == None:
+                form = CalendarDayForm(date)
+            else:
+                form = CalendarDayForm(date, instance=calendar_day)
+                taken_part = True
+                taken_all = set(events.filter(days__number=weekday)) == set(calendar_day.medication.all())
             variables = {
                 "weekday": self.cssclasses[weekday],
                 "day": day,
                 "date": date,
                 "today": date.date() == datetime.now().date(),
-                "medication": events.filter(day=weekday)
+                "medication": events.filter(days__number=weekday),
+                "form": form,
+                "token": self.token,
+                "taken_part": taken_part,
+                "taken_all": taken_all,
             }
             template = render_to_string("calendar-day.html", variables)
             return template

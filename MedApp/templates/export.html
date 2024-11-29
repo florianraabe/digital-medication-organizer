@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedApp</title>
+</head>
+
+<body class="d-flex flex-column" style="min-height: 100vh">
+  <div class="container mt-md-4">
+
+    <div class="d-flex justify-content-between">
+      <h3 class="pb-2">Medication</h3>
+    </div>
+  
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Number</th>
+          <th scope="col">Medication</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Dosage</th>
+        </tr>
+      </thead>
+      <tbody class="">
+        {% for obj in object_list %}
+        <tr>
+          <td class="text-center col-1"><center>{{ forloop.counter }}</center></td>
+          <td class="text-center col-2"><center>{{ obj.name }}</center></td>
+          <td class="text-center col-1"><center>{{ obj.amount }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</center></td>
+          <td class="text-center col-1"><center>{{ obj.dosage }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</center></td>
+        </tr>
+        {% empty %}
+          <p>No medication yet.</p>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+  </div>
+
+</body>
+
+</html>

@@ -24,6 +24,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path('calendar/', views.calendar_month, name="calendar"),
     path('calendar/<int:year>/<int:month>/', views.calendar_month, name="calendar"),
+    path('calendar/<int:year>/<int:month>/<int:day>/', views.mark_calendar_day, name="mark-calendar-day"),
     path('medication/', views.MedicationListView.as_view(), name="medication"),
     path('medication/<int:pk>/', views.MedicationDetailView.as_view(), name="detail-medication"),
     path('medication/add/', views.MedicationCreateView.as_view(), name="add-medication"),
