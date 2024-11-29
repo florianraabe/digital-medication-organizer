@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from io import BytesIO
 
 from django.http import HttpResponse
+from django.middleware.csrf import get_token
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.urls import reverse_lazy
@@ -12,8 +13,6 @@ from xhtml2pdf import pisa
 from .calendar import MedicationCalendar
 from .forms import CalendarDayForm, MedicationForm, PerceptionForm
 from .models import CalendarDay, Medication, Perception
-
-from django.middleware.csrf import get_token
 
 # Create your views here.
 
@@ -40,8 +39,15 @@ def calendar_month(request, year=datetime.now().year, month=datetime.now().month
 
     return render(request, "calendar.html", context)
 
-def render_to_pdf(template, context={}):
-    template = get_template(template)
+
+def export(request):
+
+    context = {
+        "user": request.user,
+        "object_list": Medication.objects.all(),
+    }
+
+    template = get_template("export.html")
     html = template.render(context)
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
@@ -49,13 +55,6 @@ def render_to_pdf(template, context={}):
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
 
-def export(request):
-    
-    context = {
-        "user": request.user,
-        "object_list": Medication.objects.all(),
-    }
-    return render_to_pdf("export.html", context)
 
 def mark_calendar_day(request, year, month, day):
     
