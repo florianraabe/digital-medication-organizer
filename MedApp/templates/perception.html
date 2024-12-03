@@ -24,6 +24,21 @@
     {% endfor %}
   </ul>
 
+  <div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Help information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Here you can see all previously recorded health perceptions.<Br>
+          Click on the button <span class="text-primary">Add new perception</span> to add a new one.
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}

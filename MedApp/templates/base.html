@@ -34,11 +34,12 @@
           </li>
         </ul>
       </div>
-      <div class="w-100 d-flex justify-content-end">
+      <div class="w-100 d-flex justify-content-center justify-content-md-end">
         <form method="post" action="{% url 'export' %}">
           {% csrf_token %}
           <input type="submit" value="Export" class="btn btn-outline-dark me-2">
         </form>
+        <a class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#help">Help ?</a>
       </div>
     </div>
   </nav>
