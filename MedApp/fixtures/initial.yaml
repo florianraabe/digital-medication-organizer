@@ -1,0 +1,55 @@
+- model: MedApp.weekdays
+  pk: 1
+  fields:
+    name: Monday
+    number: 0
+- model: MedApp.weekdays
+  pk: 2
+  fields:
+    name: Tuesday
+    number: 1
+- model: MedApp.weekdays
+  pk: 3
+  fields:
+    name: Wednesday
+    number: 2
+- model: MedApp.weekdays
+  pk: 4
+  fields:
+    name: Thursday
+    number: 3
+- model: MedApp.weekdays
+  pk: 5
+  fields:
+    name: Friday
+    number: 4
+- model: MedApp.weekdays
+  pk: 6
+  fields:
+    name: Saturday
+    number: 5
+- model: MedApp.weekdays
+  pk: 7
+  fields:
+    name: Sunday
+    number: 6
+- model: MedApp.dosingtime
+  pk: 1
+  fields:
+    name: Morning
+    time: 09:00:00
+- model: MedApp.dosingtime
+  pk: 2
+  fields:
+    name: Lunch
+    time: '13:00:00'
+- model: MedApp.dosingtime
+  pk: 3
+  fields:
+    name: Evening
+    time: '17:00:00'
+- model: MedApp.dosingtime
+  pk: 4
+  fields:
+    name: Night
+    time: '21:00:00'

@@ -3,41 +3,108 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MedApp</title>
+    <title>Medication Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h3 {
+            margin-bottom: 10px;
+            color: #007bff;
+            font-size: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .table th, .table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+        .table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #999;
+        }
+    </style>
 </head>
 
-<body class="d-flex flex-column" style="min-height: 100vh">
-  <div class="container mt-md-4">
+<body>
+    <div class="container">
+        <h3>Medication Overview</h3>
+        
+        {% if medication %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Medication Name</th>
+                    <th>Stock (Units)</th>
+                    <th>Dosage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in medication %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ obj.name }}</td>
+                    <td class="text-center">{{ obj.amount }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</td>
+                    <td class="text-center">{{ obj.dosage }} {{ obj.get_type_display }}{% if obj.dosage > 1 and obj.type == 1 %}s{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No medication records available.</p>
+        {% endif %}
 
-    <div class="d-flex justify-content-between">
-      <h3 class="pb-2">Medication</h3>
+        <h3>Perception Overview</h3>
+        {% if perceptions %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Time</th>
+                    <th>Perception (1-5)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in perceptions %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ obj.date }}</td>
+                    <td class="text-center">{{ obj.health }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No perception records available.</p>
+        {% endif %}
     </div>
-  
-    <table class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Number</th>
-          <th scope="col">Medication</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Dosage</th>
-        </tr>
-      </thead>
-      <tbody class="">
-        {% for obj in object_list %}
-        <tr>
-          <td class="text-center col-1"><center>{{ forloop.counter }}</center></td>
-          <td class="text-center col-2"><center>{{ obj.name }}</center></td>
-          <td class="text-center col-1"><center>{{ obj.amount }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</center></td>
-          <td class="text-center col-1"><center>{{ obj.dosage }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</center></td>
-        </tr>
-        {% empty %}
-          <p>No medication yet.</p>
-        {% endfor %}
-      </tbody>
-    </table>
-  
-  </div>
-
 </body>
-
 </html>
