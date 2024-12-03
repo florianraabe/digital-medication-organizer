@@ -20,8 +20,9 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         h3 {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #007bff;
+            font-size: 20px;
         }
         .table {
             width: 100%;
@@ -32,6 +33,7 @@
             text-align: left;
             padding: 10px;
             border: 1px solid #ddd;
+            font-size: 15px;
         }
         .table th {
             background-color: #007bff;
@@ -55,7 +57,7 @@
     <div class="container">
         <h3>Medication Overview</h3>
         
-        {% if object_list %}
+        {% if medication %}
         <table class="table">
             <thead>
                 <tr>
@@ -66,18 +68,42 @@
                 </tr>
             </thead>
             <tbody>
-                {% for obj in object_list %}
+                {% for obj in medication %}
                 <tr>
                     <td class="text-center">{{ forloop.counter }}</td>
                     <td>{{ obj.name }}</td>
                     <td class="text-center">{{ obj.amount }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</td>
-                    <td class="text-center">{{ obj.dosage }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</td>
+                    <td class="text-center">{{ obj.dosage }} {{ obj.get_type_display }}{% if obj.dosage > 1 and obj.type == 1 %}s{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
         <p class="no-data">No medication records available.</p>
+        {% endif %}
+
+        <h3>Perception Overview</h3>
+        {% if perceptions %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Time</th>
+                    <th>Perception (1-5)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in perceptions %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ obj.date }}</td>
+                    <td class="text-center">{{ obj.health }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No perception records available.</p>
         {% endif %}
     </div>
 </body>

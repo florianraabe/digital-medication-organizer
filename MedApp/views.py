@@ -44,7 +44,8 @@ def export(request):
 
     context = {
         "user": request.user,
-        "object_list": Medication.objects.all(),
+        "medication": Medication.objects.all(),
+        "perceptions": Perception.objects.all(),
     }
 
     template = get_template("export.html")
