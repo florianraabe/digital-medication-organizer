@@ -23,15 +23,17 @@
             <div class="progress-bar text-bg-success" style="width: 100%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
           {% elif obj.amount >= 7 %}
             <div class="progress-bar text-bg-warning" style="width: 50%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
-          {% else %}
+          {% elif ob.amount > 0 %}
             <div class="progress-bar text-bg-danger" style="width: 25%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
+          {% else %}
+            <div class="progress-bar text-bg-secondary" style="width: 10%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
           {% endif %}
         </div>
         <div class="col-2">
-          <p class="text-body-secondary mb-0 text-start">{{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %} left</p>
+          <p class="text-body-secondary mb-0 text-start">{{ obj.get_type_display }}{% if obj.amount != 1 and obj.type == 1 %}s{% endif %} left</p>
         </div>
         <div class="col-1">
-          <p class="text-body-secondary mb-0 text-start">Dosage: <b>{{ obj.dosage }}</b> {{ obj.get_type_display }}{% if obj.dosage > 1 and obj.type == 1 %}s{% endif %}</p>
+          <p class="text-body-secondary mb-0 text-start">Dosage: <b>{{ obj.dosage }}</b> {{ obj.get_type_display }}{% if obj.dosage != 1 and obj.type == 1 %}s{% endif %}</p>
         </div>
         <div class="fw-bold col-1 text-end">
           &#62;

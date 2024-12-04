@@ -28,18 +28,18 @@ class MedicationCalendar(HTMLCalendar):
             calendar_day = CalendarDay.objects.filter(date=date).first()
             taken_part = False
             taken_all = False
+
+            f1 = Q( days__number=weekday )
+            f_enddate_is_none = Q( enddate__isnull = True )
+            f_enddate_is_not_none = Q( enddate__gt=date.date() )
+            medication = events.filter( f1 & ( f_enddate_is_none | f_enddate_is_not_none ) )
+
             if calendar_day == None:
                 form = CalendarDayForm(date)
             else:
                 form = CalendarDayForm(date, instance=calendar_day)
                 taken_part = True
-                taken_all = set(events.filter(days__number=weekday)) == set(calendar_day.medication.all())
-
-            f1 = Q( days__number=weekday )
-            f_enddate_is_none = Q( enddate__isnull = True )
-            f_enddate_is_not_none = Q( enddate__gt=date.date() )
-
-            medication = events.filter( f1 & ( f_enddate_is_none | f_enddate_is_not_none ) )
+                taken_all = set(medication) == set(calendar_day.medication.all())
 
             variables = {
                 "weekday": self.cssclasses[weekday],

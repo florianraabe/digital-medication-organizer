@@ -1,6 +1,8 @@
+import os
 from datetime import datetime, timedelta
 from io import BytesIO
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import redirect, render
@@ -44,7 +46,9 @@ def export(request):
 
     context = {
         "user": request.user,
+        "today": datetime.now(),
         "medication": Medication.objects.all(),
+        "days": CalendarDay.objects.all(),
         "perceptions": Perception.objects.all(),
     }
 
