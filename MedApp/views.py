@@ -67,7 +67,13 @@ def mark_calendar_day(request, year, month, day):
         else:
             form = CalendarDayForm(date, request.POST, instance=calendar_day)
         if form.is_valid():
-            form.save()
+            calendar_day = form.save()
+            for med in calendar_day.medication.all():
+                if med.amount < med.dosage:
+                    med.amount = 0
+                else:
+                    med.amount -= med.dosage
+                med.save()
 
     return redirect(calendar_month)
     
