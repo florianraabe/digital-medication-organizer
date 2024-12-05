@@ -91,6 +91,11 @@ class Medication(models.Model):
         DosingTime,
         verbose_name=_("Dosing Times"),
     )
+    enddate = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name=_("Date until the medication needs to be taken"),
+    )
 
 
 class CalendarDay(models.Model):

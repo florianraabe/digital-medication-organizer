@@ -1,10 +1,11 @@
 from calendar import HTMLCalendar
 from datetime import datetime
 
+from django.db.models import Q, F
 from django.template.loader import render_to_string
 
 from .forms import CalendarDayForm
-from .models import Medication, CalendarDay
+from .models import CalendarDay, Medication
 
 
 class MedicationCalendar(HTMLCalendar):
@@ -27,18 +28,25 @@ class MedicationCalendar(HTMLCalendar):
             calendar_day = CalendarDay.objects.filter(date=date).first()
             taken_part = False
             taken_all = False
+
+            f1 = Q( days__number=weekday )
+            f_enddate_is_none = Q( enddate__isnull = True )
+            f_enddate_is_not_none = Q( enddate__gt=date.date() )
+            medication = events.filter( f1 & ( f_enddate_is_none | f_enddate_is_not_none ) )
+
             if calendar_day == None:
                 form = CalendarDayForm(date)
             else:
                 form = CalendarDayForm(date, instance=calendar_day)
                 taken_part = True
-                taken_all = set(events.filter(days__number=weekday)) == set(calendar_day.medication.all())
+                taken_all = set(medication) == set(calendar_day.medication.all())
+
             variables = {
                 "weekday": self.cssclasses[weekday],
                 "day": day,
                 "date": date,
                 "today": date.date() == datetime.now().date(),
-                "medication": events.filter(days__number=weekday),
+                "medication": medication,
                 "form": form,
                 "token": self.token,
                 "taken_part": taken_part,

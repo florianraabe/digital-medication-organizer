@@ -55,6 +55,7 @@
 
 <body>
     <div class="container">
+        <p>{{ today }}</p>
         <h3>Medication Overview</h3>
         
         {% if medication %}
@@ -74,6 +75,35 @@
                     <td>{{ obj.name }}</td>
                     <td class="text-center">{{ obj.amount }} {{ obj.get_type_display }}{% if obj.amount > 1 and obj.type == 1 %}s{% endif %}</td>
                     <td class="text-center">{{ obj.dosage }} {{ obj.get_type_display }}{% if obj.dosage > 1 and obj.type == 1 %}s{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-data">No medication records available.</p>
+        {% endif %}
+
+        {% if days %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Medication</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in days %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ obj.date }}</td>
+                    <td class="text-center">
+                        {% for m in obj.medication.all %}
+                            {{ m }}
+                        {% empty %}
+                        <p>-</p>
+                        {% endfor %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

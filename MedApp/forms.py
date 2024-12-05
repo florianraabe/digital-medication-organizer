@@ -4,6 +4,7 @@ from crispy_forms.bootstrap import Field
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Layout, Row
 from django import forms
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from .models import CalendarDay, Medication, Perception
@@ -25,7 +26,12 @@ class CalendarDayForm(forms.ModelForm):
         field = self.fields['date']
         field.widget = field.hidden_widget()
         field.initial = date.date()
-        self.fields['medication'].queryset = Medication.objects.filter(days__number=date.weekday())
+
+        f1 = Q( days__number=date.weekday() )
+        f_enddate_is_none = Q( enddate__isnull = True )
+        f_enddate_is_not_none = Q( enddate__gt=date.date() )
+
+        self.fields['medication'].queryset = Medication.objects.filter( f1 & ( f_enddate_is_none | f_enddate_is_not_none ) )  
         calendar_day = CalendarDay.objects.filter(date=date).first()
         if calendar_day is not None:
             self.fields['medication'].initial = calendar_day.medication
@@ -43,6 +49,7 @@ class MedicationForm(forms.ModelForm):
         widgets = {
             "days": forms.CheckboxSelectMultiple(),
             "time": forms.CheckboxSelectMultiple(),
+            "enddate": forms.TextInput(attrs={'type': 'date'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -62,7 +69,7 @@ class MedicationForm(forms.ModelForm):
             ),
             Row(
                 Column(Field('days', placeholder=""), css_class='form-group col-md-6 mb-0'),
-                Column(Field('time', placeholder=""), css_class='form-group col-md-6 mb-0'),
+                Column(Field('enddate', placeholder=""), Field('time', placeholder=""), css_class='form-group col-md-6 mb-0'),
                 css_class='form-row align-items-center'
             ),
         )
