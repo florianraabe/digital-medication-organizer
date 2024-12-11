@@ -33,4 +33,5 @@ urlpatterns = [
     path('perception/', views.PerceptionListView.as_view(), name="perception"),
     path('perception/add/', views.PerceptionCreateView.as_view(), name="add-perception"),
     path('export/', views.export, name="export"),
+    path('track/<int:time>/<int:click>/<int:x>/<int:y>/<int:w>/<int:h>/<str:src>/', views.track_mouse, name="track"),
 ]
