@@ -18,6 +18,16 @@ from .models import CalendarDay, Medication, Perception
 
 # Create your views here.
 
+
+def track_mouse(request, time, click, x, y, w, h, src):
+    print(time, click, x, y, w, h, src)
+
+    with open("tracking.csv", "a") as fd:
+        fd.write(f"{time},{click},{x},{y},{w},{h},{src}\n")
+
+    return HttpResponse("a", content_type='image/jpeg')
+
+
 def index(request):
 
     return redirect(calendar_month)
