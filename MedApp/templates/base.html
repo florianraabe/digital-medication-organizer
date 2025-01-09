@@ -16,7 +16,7 @@
   <nav class="navbar navbar-expand-md sticky-top bg-body-tertiary">
     <div class="container-fluid">
       <div class="w-100 d-flex justify-content-between">
-        <a class="navbar-brand ms-2" href="/">Hello User</a>
+        <a class="navbar-brand ms-2" href="/">Hello {{ USERNAME }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,22 +30,45 @@
             <a class="nav-link {% if 'medication' in request.path %}active{% endif %}" href="{% url "medication" %}">Medication</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'perception' in request.path %}active{% endif %}" href="{% url "add-perception" %}">Perception</a>
+            <a class="nav-link {% if 'perception' in request.path %}active{% endif %}" href="{% url "perception" %}">Perception</a>
           </li>
         </ul>
       </div>
       <div class="w-100 d-flex justify-content-center justify-content-md-end">
         <form method="post" action="{% url 'export' %}">
           {% csrf_token %}
-          <input type="submit" value="Export" class="btn btn-outline-dark me-2">
+          <button type="submit" value="" class="btn btn-outline-dark me-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf mb-1" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+            </svg>
+            Export
+          </button>
         </form>
-        <a class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#help">Help ?</a>
+        <a class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#help">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle mb-1" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+          </svg>
+          Help
+        </a>
       </div>
     </div>
   </nav>
 
-  <main class="d-flex flex-fill mt-4">
-    {% block content %}{% endblock %}
+  <main class="d-flex flex-fill mt-4 mb-2">
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{ message.level_tag }} {{ message.extra_tags }} text-center" role="alert">
+              {{ message }}
+              {% if 'alert-dismissible' in message.extra_tags %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
   </main>
 
   <script src={% static 'js/bootstrap.bundle.min.js' %}></script>

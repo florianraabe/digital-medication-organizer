@@ -2,64 +2,73 @@
 
 {% block content %}
 
-<div class="container mt-md-4">
+{% load crispy_forms_tags %}
 
-  <div class="d-flex justify-content-between">
-		<h3 class="pb-2">Medication</h3>
-		<a class="btn btn-primary mb-3" href="{% url "add-medication" %}" role="button">Add new medication</a>
-	</div>
-
-  <ul class="list-group list-group-light my-2">
-    {% for obj in object_list %}
-    <a class="btn btn-rounded p-0 my-1" href="{% url 'edit-medication' pk=obj.pk %}" role="button">
-      <li class="list-group-item d-flex justify-content-between align-items-center hover">
-        <div class="d-flex align-items-center col-4">
-          <div class="ms-2">
-            <h6 class="fw-bold my-3 text-start">{{ obj.name }}</h6>
-          </div>  
-        </div>
-        <div class="progress w-25 col-4" style="height: 2rem" role="progressbar">
-          {% if obj.amount >= 14 %}
-            <div class="progress-bar text-bg-success" style="width: 100%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
-          {% elif obj.amount >= 7 %}
-            <div class="progress-bar text-bg-warning" style="width: 50%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
-          {% elif ob.amount > 0 %}
-            <div class="progress-bar text-bg-danger" style="width: 25%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
-          {% else %}
-            <div class="progress-bar text-bg-secondary" style="width: 10%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
-          {% endif %}
-        </div>
-        <div class="col-2">
-          <p class="text-body-secondary mb-0 text-start">{{ obj.get_type_display }}{% if obj.amount != 1 and obj.type == 1 %}s{% endif %} left</p>
-        </div>
-        <div class="col-1">
-          <p class="text-body-secondary mb-0 text-start">Dosage: <b>{{ obj.dosage }}</b> {{ obj.get_type_display }}{% if obj.dosage != 1 and obj.type == 1 %}s{% endif %}</p>
-        </div>
-        <div class="fw-bold col-1 text-end">
-          &#62;
-        </div>
-      </li>
+<div class="d-flex justify-content-between">
+  <h3 class="w-50 pb-2">Medication</h3>
+  {% crispy form %}
+  <div class="w-50 d-flex justify-content-end">
+    <a class="btn btn-primary mb-3" href="{% url "add-medication" %}" role="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle mb-1" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+      </svg>
+      Add new medication
     </a>
-    {% empty %}
-        <p class="text-center">No medication yet.</p>
-    {% endfor %}
-  </ul>
+  </div>
+</div>
 
-  <div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Help information</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Click on a medication to the information like the stock, amount and when to take it.
-          You can add more medication by clicking on the button <span class="text-primary">Add new medication</span>.
-        </div>
+<ul class="list-group list-group-light my-2">
+  {% for obj in object_list %}
+  <a class="btn btn-rounded p-0 my-1" href="{% url 'edit-medication' pk=obj.pk %}" role="button">
+    <li class="list-group-item d-flex justify-content-between align-items-center hover">
+      <div class="d-flex align-items-center col-4">
+        <div class="ms-2">
+          <h6 class="fw-bold my-3 text-start">{{ obj.name }}</h6>
+        </div>  
+      </div>
+      <div class="progress w-25 col-4" style="height: 2rem" role="progressbar">
+        {% if obj.amount >= 14 %}
+          <div class="progress-bar text-bg-success" style="width: 100%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
+        {% elif obj.amount >= 7 %}
+          <div class="progress-bar text-bg-warning" style="width: 50%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
+        {% elif ob.amount > 0 %}
+          <div class="progress-bar text-bg-danger" style="width: 25%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
+        {% else %}
+          <div class="progress-bar text-bg-secondary" style="width: 10%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
+        {% endif %}
+      </div>
+      <div class="col-2">
+        <p class="text-body-secondary mb-0 text-start">{{ obj.get_type_display }}{% if obj.amount != 1 and obj.type == 1 %}s{% endif %} left</p>
+      </div>
+      <div class="col-1">
+        <p class="text-body-secondary mb-0 text-start">Dosage: <b>{{ obj.dosage }}</b> {{ obj.get_type_display }}{% if obj.dosage != 1 and obj.type == 1 %}s{% endif %}</p>
+      </div>
+      <div class="fw-bold col-1 text-end">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+        </svg>
+      </div>
+    </li>
+  </a>
+  {% empty %}
+      <p class="text-center">No medication</p>
+  {% endfor %}
+</ul>
+
+<div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Help information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Click on a medication to the information like the stock, amount and when to take it.
+        You can add more medication by clicking on the button <span class="badge text-bg-primary">Add new medication</span>.
       </div>
     </div>
   </div>
-
 </div>
 
 {% endblock %}
