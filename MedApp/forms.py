@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from crispy_forms.bootstrap import Field
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Layout, Row
@@ -92,4 +90,16 @@ class PerceptionForm(forms.ModelForm):
     # this function will be used for the validation
     def clean(self):
         super(PerceptionForm, self).clean()
+        return self.cleaned_data
+
+
+class MedicationSearchForm(forms.Form):
+    search_text = forms.CharField(max_length=64, label="", required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(MedicationSearchForm, self).__init__(*args, **kwargs)
+    
+    # this function will be used for the validation
+    def clean(self):
+        super(MedicationSearchForm, self).clean()
         return self.cleaned_data

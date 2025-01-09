@@ -2,45 +2,54 @@
 
 {% block content %}
 
-
-<div class="container">
-
   {% block calendar %}
 
   <div class="d-flex justify-content-between">
-    <h3>{{ month|date:"F Y" }}</h3>
-    <div class="">
-      <a class="btn btn-secondary mb-2" href="/calendar/{{ previous|date:"Y/n" }}" role="button">&#60; {{ previous|date:"F" }}</a>
-      <a class="btn btn-secondary mb-2" href="/calendar/" role="button">Today</a>
-      <a class="btn btn-secondary mb-2" href="/calendar/{{ next|date:"Y/n" }}" role="button">{{ next|date:"F" }} &#62;</a>
+    <h3 class="ms-2 w-50">{{ month|date:"F Y" }}</h3>
+    <div class="d-flex align-items-center mb-1">
+      <span class="badge text-bg-danger mx-1 fs-6">Today: {{ today|date:"d. M Y" }}</span>
+      <span class="badge text-bg-warning mx-1 fs-6">partly taken</span>
+      <span class="badge text-bg-success mx-1 fs-6">all taken</span>
+    </div>
+    <div class="w-50 d-flex justify-content-end">
+      <a class="btn btn-secondary mb-2 mx-1" href="/calendar/{{ previous|date:"Y/n" }}" role="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left mb-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+        </svg>
+        {{ previous|date:"F" }}
+      </a>
+      <a class="btn btn-secondary mb-2 mx-1" href="/calendar/" role="button">Today</a>
+      <a class="btn btn-secondary mb-2 mx-1" href="/calendar/{{ next|date:"Y/n" }}" role="button">
+        {{ next|date:"F" }}
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right mb-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+        </svg>
+      </a>
     </div>
   </div>
 
-  <div class="container text-center table-responsive">
+  <div class="text-center table-responsive">
     {{ calendar|safe}}
   </div>
 
   {% endblock %}
 
-  <div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Help information</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Click on a day to see the medication, the amount and when to take it.
-          Select the checkbox on the left of the medication you have taken and click the button <span class="text-primary">Taken</span>.<Br><Br>
-          The colors of the days have different meanings:<Br>
-          <span class="text-info">Blue</span> - marks today<Br>
-          <span class="text-warning">Yellow</span> - some but not all medication was taken<Br>
-          <span class="text-success">Green</span> - all medication was taken<Br>
-        </div>
+<div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Help information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Click on a day to see the medication, the amount and when to take it.
+        Select the checkbox on the left of the medication you have taken and click the button <span class="badge text-bg-primary">Taken</span>.<Br><Br>
+        The colors of the days have different meanings:<Br>
+        <span class="badge text-bg-warning">Yellow</span> - some but not all medication was taken<Br>
+        <span class="badge text-bg-success">Green</span> - all medication was taken<Br>
       </div>
     </div>
   </div>
-
 </div>
 
 {% endblock %}
