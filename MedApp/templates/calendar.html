@@ -7,9 +7,9 @@
   <div class="d-flex justify-content-between">
     <h3 class="ms-2 w-50">{{ month|date:"F Y" }}</h3>
     <div class="d-flex align-items-center mb-1">
-      <span class="badge text-bg-danger mx-1 fs-6">Today: {{ today|date:"d. F Y" }}</span>
-      <span class="badge text-bg-success mx-1 fs-6">all taken</span>
+      <span class="badge text-bg-danger mx-1 fs-6">Today: {{ today|date:"d. M Y" }}</span>
       <span class="badge text-bg-warning mx-1 fs-6">partly taken</span>
+      <span class="badge text-bg-success mx-1 fs-6">all taken</span>
     </div>
     <div class="w-50 d-flex justify-content-end">
       <a class="btn btn-secondary mb-2 mx-1" href="/calendar/{{ previous|date:"Y/n" }}" role="button">
