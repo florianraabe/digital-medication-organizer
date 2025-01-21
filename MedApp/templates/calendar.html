@@ -6,7 +6,7 @@
 
   <div class="d-flex justify-content-between">
     <h3 class="ms-2 w-50">{{ month|date:"F Y" }}</h3>
-    <div class="d-flex align-items-center mb-1">
+    <div class="d-flex align-items-center mb-2">
       <span class="badge text-bg-danger mx-1 fs-6">Today: {{ today|date:"d. M Y" }}</span>
       <span class="badge text-bg-warning mx-1 fs-6">partly taken</span>
       <span class="badge text-bg-success mx-1 fs-6">all taken</span>
@@ -18,7 +18,7 @@
         </svg>
         {{ previous|date:"F" }}
       </a>
-      <a class="btn btn-secondary mb-2 mx-1" href="/calendar/" role="button">Today</a>
+      <a class="btn btn-danger mb-2 mx-1" href="/calendar/" role="button">Today</a>
       <a class="btn btn-secondary mb-2 mx-1" href="/calendar/{{ next|date:"Y/n" }}" role="button">
         {{ next|date:"F" }}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right mb-1" viewBox="0 0 16 16">

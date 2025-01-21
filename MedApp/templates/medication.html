@@ -6,7 +6,10 @@
 
 <div class="d-flex justify-content-between">
   <h3 class="w-50 pb-2">Medication</h3>
-  {% crispy form %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="me-2 pb-2">Search: </h5>
+    {% crispy form %}
+  </div>
   <div class="w-50 d-flex justify-content-end">
     <a class="btn btn-primary mb-3" href="{% url "add-medication" %}" role="button">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle mb-1" viewBox="0 0 16 16">
@@ -38,10 +41,10 @@
           <div class="progress-bar text-bg-secondary" style="width: 10%"><h6 class="pt-2">{{ obj.amount }}</h6></div>
         {% endif %}
       </div>
-      <div class="col-2">
+      <div class="col-1">
         <p class="text-body-secondary mb-0 text-start">{{ obj.get_type_display }}{% if obj.amount != 1 and obj.type == 1 %}s{% endif %} left</p>
       </div>
-      <div class="col-1">
+      <div class="col-2 ps-5">
         <p class="text-body-secondary mb-0 text-start">Dosage: <b>{{ obj.dosage }}</b> {{ obj.get_type_display }}{% if obj.dosage != 1 and obj.type == 1 %}s{% endif %}</p>
       </div>
       <div class="fw-bold col-1 text-end">

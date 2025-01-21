@@ -32,8 +32,15 @@
     </div>
   </li>
   {% empty %}
-      <p class="text-center">No perception yet.</p>
+      <p class="text-center mt-3">No perception yet.</p>
   {% endfor %}
+  <div class="mt-4">
+    <p class="text-center">
+      <strong>Average health perception</strong><Br>
+      last week: {{ avg_week }}<Br>
+      total: {{ avg }}
+    </p>
+  </div>
 </ul>
 
 <div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">

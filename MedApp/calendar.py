@@ -30,9 +30,10 @@ class MedicationCalendar(HTMLCalendar):
             taken_all = False
 
             f1 = Q( days__number=weekday )
+            f2 = Q( creation_date__date__lte=date)
             f_enddate_is_none = Q( enddate__isnull = True )
             f_enddate_is_not_none = Q( enddate__gt=date.date() )
-            medication = events.filter( f1 & ( f_enddate_is_none | f_enddate_is_not_none ) )
+            medication = events.filter( f1 & f2 & ( f_enddate_is_none | f_enddate_is_not_none ) )
 
             if calendar_day == None:
                 form = CalendarDayForm(date)

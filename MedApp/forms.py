@@ -43,7 +43,7 @@ class CalendarDayForm(forms.ModelForm):
 class MedicationForm(forms.ModelForm):
     class Meta:
         model = Medication
-        exclude = ()
+        exclude = ("creation_date",)
         widgets = {
             "days": forms.CheckboxSelectMultiple(),
             "time": forms.CheckboxSelectMultiple(),

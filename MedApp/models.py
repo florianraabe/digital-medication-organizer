@@ -48,7 +48,7 @@ class DosingTime(models.Model):
 class Medication(models.Model):
     class Meta:
         unique_together = [['name']]
-        ordering = ["name"]
+        ordering = ["-creation_date"]
         verbose_name = "Medication"
         verbose_name_plural = "Medication"
 
@@ -95,6 +95,9 @@ class Medication(models.Model):
         null=True,
         blank=True,
         verbose_name=_("Date until the medication needs to be taken"),
+    )
+    creation_date = models.DateTimeField(
+        default=now,
     )
 
 
