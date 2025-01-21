@@ -3,7 +3,7 @@
 <td class="{{ weekday }} col-1" style="width:10rem;height:8rem;">
     <div class="card h-100 {% if taken_all %}text-bg-success{% elif taken_part %}text-bg-warning{% elif weekday == 'sun' %}text-bg-light{% endif %} {% if today %}border-3 border-danger{% endif %}">
       <div class="d-flex">
-        <p class="text-start ms-2 {% if today %}fw-bold{% endif %}">{{ day }}</p>
+        <p class="text-start ms-2 {% if today %}fw-bold{% endif %}">{{ date|date:"d.m." }}</p>
         <div class="card-body p-1">
           <a class="stretched-link" data-bs-toggle="modal" data-bs-target="#detail-{{ day }}"></a>
           <ul class="list-group list-group-flush">
@@ -37,6 +37,7 @@
                 {{ form|crispy }}
               </div>
             </div>
+            <a class="" href="{% url "add-medication" %}">Add medication</a>
           </div>
           <div class="modal-footer d-flex justify-content-center">
             <input type="submit" value="Taken" class="btn btn-primary">

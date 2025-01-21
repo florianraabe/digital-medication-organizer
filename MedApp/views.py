@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from io import BytesIO
 
 from django.contrib import messages
+from django.db.models import Avg
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import redirect, render
@@ -30,9 +31,11 @@ def track_mouse(request, time, click, x, y, w, h, src):
 
 def index(request):
 
-    return redirect(calendar_month)
-
-    #return render(request, "index.html", context)
+    #return redirect(calendar_month)
+    context = {
+        "user": request.user,
+    }
+    return render(request, "index.html", context)
 
 
 def calendar_month(request, year=datetime.now().year, month=datetime.now().month):
@@ -129,7 +132,7 @@ class MedicationCreateView(CreateView):
     template_name = 'form.html'
   
     def get_success_url(self):
-        messages.success(self.request, "You have successfully created the medication.", extra_tags="alert-dismissible")
+        messages.success(self.request, f"You have successfully created the medication {self.object.name}.", extra_tags="alert-dismissible")
         return reverse_lazy("medication")
 
 
@@ -140,7 +143,7 @@ class MedicationUpdateView(UpdateView):
     slug_url_kwarg = 'pk'
 
     def get_success_url(self):
-        messages.success(self.request, "You have successfully updated the medication.", extra_tags="alert-dismissible")
+        messages.success(self.request, f"You have successfully updated the medication {self.object.name}.", extra_tags="alert-dismissible")
         return reverse_lazy("medication")
 
 
@@ -157,7 +160,14 @@ class MedicationDeleteView(DeleteView):
 
 class PerceptionListView(ListView):
     model = Perception
+    queryset = Perception.objects.annotate(avg=Avg('health'))
     template_name = 'perception.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PerceptionListView, self).get_context_data(**kwargs)
+        context['avg'] = Perception.objects.aggregate(Avg('health'))['health__avg']
+        context['avg_week'] = Perception.objects.filter(date__date__gte=date.today()-timedelta(days=7)).aggregate(Avg('health'))['health__avg']
+        return context
 
 class PerceptionCreateView(CreateView):
     model = Perception

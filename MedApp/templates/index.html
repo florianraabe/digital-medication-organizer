@@ -2,4 +2,29 @@
 
 {% block content %}
 
+<div class="d-flex flex-column align-items-center mt-5">
+  <h2 class="my-5">Welcome to the digital medication organizer!</h2>
+
+  <h5 class="mt-5">Calendar shows you a monthly overview.</h5>
+  <h5 class="">Medication lets you manage your medication.</h5>
+  <h5 class="">Perception tracks your daily health perception.</h5>
+
+  <h4 class="my-5">You can always find help at the top right corner!</h4>
+</div>
+
+
+<div class="modal fade" id="help" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Help information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Here you can get help on each page.
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
